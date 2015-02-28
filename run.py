@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 import twilio.twiml
 import  wolframalpha
+import logging
 
 client = wolframalpha.Client('TRR8TK-VHV99K9UE8')
 
@@ -19,7 +20,7 @@ def hello_monkey():
 	content = request.values.get('Body', None)
 	
 	wolfram_content = client.query(content)
-	
+	logging.warning(wolfram_content)
 	message = next(wolfram_content.results).text
 
 	print(message)
