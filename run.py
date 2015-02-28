@@ -1,5 +1,9 @@
 from flask import Flask, request, redirect
 import twilio.twiml
+import  wolframalpha
+
+client = wolframalpha.Client('TRR8TK-VHV99K9UE8')
+
 app = Flask(__name__)
 
 # Try adding your own number to this list!
@@ -12,10 +16,18 @@ callers = {
 def hello_monkey():
 	"""Respond and greet the caller by name."""
 	from_number = request.values.get('From', None)
-	if from_number in callers:
-		message = callers[from_number] + ", thanks for the message!"
-	else:
-		message = "Monkey, thanks for the message!"
+	content = request.values.get('Body', None)
+	
+	wolfram_content = client.query(content)
+	
+	message = next(wolfram_content.results).text
+
+	print(message)
+	
+	#if from_number in callers:
+	#	message = callers[from_number] + ", thanks for the message!"
+	#else:
+	#	message = "Monkey, thanks for the message!"
 	resp = twilio.twiml.Response()
 	resp.message(message)
 	return str(resp)
