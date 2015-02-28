@@ -23,7 +23,7 @@ def hello_monkey():
 	logging.warning(wolfram_content.results)
 	message = next(wolfram_content.results).text
 
-	print(message)
+#	print(message)
 	
 	#if from_number in callers:
 	#	message = callers[from_number] + ", thanks for the message!"
