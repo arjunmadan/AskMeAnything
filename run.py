@@ -21,7 +21,7 @@ def hello_monkey():
 	
 	wolfram_content = client.query(content)
 	logging.warning(wolfram_content.results)
-	message = next(wolfram_content.results).text
+	message = wolfram_content.results.text
 
 #	print(message)
 	
