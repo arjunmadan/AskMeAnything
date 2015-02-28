@@ -5,8 +5,8 @@ app = Flask(__name__)
 # Try adding your own number to this list!
 callers = {
 	"+19199855863": "Arjun",
-	"+14158675310": "Boots",
-	"+14158675311": "Virgil",
+	"+19199855965": "Boots",
+	"+19197605565": "Virgil",
 	}
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
