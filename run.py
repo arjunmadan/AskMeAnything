@@ -20,7 +20,7 @@ def hello_monkey():
 	content = request.values.get('Body', None)
 	
 	wolfram_content = client.query(content)
-	logging.warning(wolfram_content)
+	logging.warning(wolfram_content.results)
 	message = next(wolfram_content.results).text
 
 	print(message)
