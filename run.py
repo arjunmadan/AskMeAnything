@@ -4,7 +4,7 @@ import  wolframalpha
 import logging
 import sys
 
-client = wolframalpha.Client('TRR8TK-VHV99K9UE8')
+wolfram_api = 'TRR8TK-VHV99K9UE8'
 
 app = Flask(__name__)
 
@@ -21,23 +21,27 @@ def hello_monkey():
 		from_number = request.values.get('From', None)
 		content = request.values.get('Body', None)
 		
-		wolfram_content = client.query(content)
-
-		logging.warning(type(wolfram_content))
-		if wolfram_content.results:
-			message = next(wolfram_content.results).text
-		else:
-			message = "No results found!"
-		resp = twilio.twiml.Response()
-		resp.message(message)
-		return str(resp)
+		url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
+		r = requests.get(url)
+		
+		logging.warning(r.text)
+		#wolfram_content = client.query(content)
+		
+		#logging.warning(type(wolfram_content))
+		#if wolfram_content.results:
+		#	message = next(wolfram_content.results).text
+		#else:
+		#	message = "No results found!"
+		#resp = twilio.twiml.Response()
+		#resp.message(message)
+		#return str(resp)
 		
 	except:
 		logging.warning("Error")
 		message="No results found. Try an alternate question."
-		resp = twilio.twiml.Response()
-		resp.message(message)
-		return str(resp)
+		#resp = twilio.twiml.Response()
+		#resp.message(message)
+		#return str(resp)
 	
 if __name__ == "__main__":
 	app.run(debug=True)
