@@ -13,12 +13,6 @@ gs = goslate.Goslate()
 
 app = Flask(__name__)
 
-# Try adding your own number to this list!
-callers = {
-	"+19199855863": "Arjun",
-	"+19199855965": "Boots",
-	"+19197605565": "Virgil",
-	}
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 	"""Respond and greet the caller by name."""
@@ -38,8 +32,8 @@ def hello_monkey():
 	root = tree.getroot()
 	if root.attrib['success'] == "true":
 		pod = root[1]
-		if pod.attrib['title'] == logo:
-			pod = root[2]
+		#if pod.attrib['title'] == logo:
+		#	pod = root[2]
 		subpod = pod[0]
 		message = gs.translate(subpod[0].text, language)
 	else:
