@@ -2,6 +2,7 @@ from flask import Flask, request, redirect
 import twilio.twiml
 import  wolframalpha
 import logging
+import sys
 
 client = wolframalpha.Client('TRR8TK-VHV99K9UE8')
 
@@ -16,24 +17,34 @@ callers = {
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 	"""Respond and greet the caller by name."""
-	from_number = request.values.get('From', None)
-	content = request.values.get('Body', None)
-	#content=content.strip()
-	#flag=True
-	#for char in content:
-#		if char.isdigit() == False:
-#			flag=False
-#			break
-#	if flag==False:
-#		content=content
-#			
-#	elif content.find(" ") == -1:
-#		content = "define "+content
-	
+	try
+		from_number = request.values.get('From', None)
+		content = request.values.get('Body', None)
+		
+	#	content=content.strip()
+	#	flag=True
+	#	for char in content:
+	#		if char.isdigit() == False:
+	#			flag=False
+	#			break
+	#	if flag==False:
+	#		content=content
+				
+	#	elif content.find(" ") == -1:
+	#		content = "define "+content
+		
 
-	wolfram_content = client.query(content)
-	logging.warning(wolfram_content.results)
-	message = next(wolfram_content.results).text
+		wolfram_content = client.query(content)
+		logging.warning(wolfram_content.results)
+		if wolfram_content.results:
+			message = next(wolfram_content.results).text
+		else:
+			message = "No results found!"
+		
+		
+	except:
+		logging.warning("Error:",sys.exe_info()[0])
+		message="Internal Server Error"
 
 #	print(message)
 	
