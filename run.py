@@ -36,7 +36,7 @@ def hello_monkey():
 
 		wolfram_content = client.query(content)
 		logging.warning(wolfram_content.results)
-		if wolfram_content.results.subpod.plaintext:
+		if wolfram_content.results:
 			message = next(wolfram_content.results).text
 		else:
 			message = "No results found!"
