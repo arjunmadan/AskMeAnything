@@ -45,7 +45,7 @@ def hello_monkey():
 		return str(resp)
 		
 	except:
-		logging.warning("Error:" + sys.exc_info()[0])
+		logging.warning("Error", exc_info()[0])
 		message="Internal Server Error"
 		resp = twilio.twiml.Response()
 		resp.message(message)
