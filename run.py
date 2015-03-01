@@ -24,7 +24,7 @@ def RepresentsInt(s):
 def hello_monkey():
 	content = request.values.get('Body', None)
 	message = ""
-	title_list = ["Definition", "Definitions", "Exact result", "Pronunciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result"]
+	title_list = ["Definition", "Definitions", "Exact result", "Pronunciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result", "Basic properties", "Physical characteristics"]
 	language = "en"
 	if len(content.split(' ')) > 1:
 		language = gs.detect(content)
