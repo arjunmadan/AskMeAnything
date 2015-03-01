@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 import twilio.twiml
-import  wolframalpha
+#import  wolframalpha
+import requests
 import logging
 import sys
 
