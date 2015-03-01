@@ -52,6 +52,7 @@ def hello_monkey():
 						else:
 							message += gs.translate(pod.attrib['title'], language) + ": " + gs.translate(subpod[0].text, language) + " "
 	else:
+		logging.warning("entering else")			
 		if len(content.split(' ')) == 1:
 			logging.warning("entering second if")
 			language = gs.detect(content)
