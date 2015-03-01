@@ -34,7 +34,7 @@ def hello_monkey():
 	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
 	if root.attrib['success'] == "true":
 		for pod in root:
-			if pod.tag == "pod"
+			if pod.tag == "pod":
 				logging.warning(pod.attrib['title'])
 				for title in title_list:
 					logging.warning(title)
