@@ -48,9 +48,9 @@ def hello_monkey():
 					if pod.attrib['title'] == it:
 						subpod = pod[0]
 						if (RepresentsInt(subpod[0].text)):
-							message += pod.attrib['title'] + ": " + subpod[0].text
+							message += gs.translate(pod.attrib['title'], language) + ": " + subpod[0].text + " "
 						else:
-							message += pod.attrib['title'] + ": " + gs.translate(subpod[0].text, language)
+							message += gs.translate(pod.attrib['title'], language) + ": " + gs.translate(subpod[0].text, language) + " "
 	else:
 		if len(content.split(' ')) == 1:
 			logging.warning("entering second if")
@@ -71,7 +71,7 @@ def hello_monkey():
 						for it in title_list:
 							if pod.attrib['title'] == it:
 								subpod = pod[0]
-								message += pod.attrib['title'] + ": " + gs.translate(subpod[0].text, language)
+								message += gs.translate(pod.attrib['title'], language) + ": " + gs.translate(subpod[0].text, language) + " "
 			
 	if message == "": 
 		message = gs.translate("Your query turned up no results. Please try something else.", language)
