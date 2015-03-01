@@ -5,8 +5,11 @@ import urllib2
 import logging
 import sys
 import xml.etree.ElementTree as ET
+import goslate
 
 wolfram_api = 'TRR8TK-VHV99K9UE8'
+
+gs = goslate.Goslate()
 
 app = Flask(__name__)
 
@@ -21,6 +24,8 @@ def hello_monkey():
 	"""Respond and greet the caller by name."""
 	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
+	language = gs.detect(content)
+	gs.translate(content, 'en')
 	content = urllib.pathname2url(content)
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
 		
@@ -34,7 +39,7 @@ def hello_monkey():
 	if root.attrib['success'] == "true":
 		pod = root[1]
 		subpod = pod[0]
-		message = subpod[0].text
+		message = gs.translate(subpod[0].text, language)
 	else:
 		message = "No results found!"
 	logging.warning(message)
