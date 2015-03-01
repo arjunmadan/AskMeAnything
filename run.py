@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect
 import twilio.twiml
+import urllib
 import urllib2
 import requests
 import logging
@@ -21,7 +22,7 @@ def hello_monkey():
 	"""Respond and greet the caller by name."""
 	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
-	
+	content = urllib.pathname2url(content)
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
 		
 	req = urllib2.Request(url)
