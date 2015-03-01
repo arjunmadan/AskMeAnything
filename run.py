@@ -7,9 +7,6 @@ import sys
 import xml.etree.ElementTree as ET
 import goslate
 
-def is_ascii(s):
-    return all(ord(c) < 128 for c in s)
-
 wolfram_api = 'TRR8TK-VHV99K9UE8'
 
 gs = goslate.Goslate()
@@ -18,8 +15,6 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
-	"""Respond and greet the caller by name."""
-	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
 	message = ""
 	title_list = ["Definition", "Definitions", "Exact result", "Pronunciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result"]
