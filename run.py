@@ -18,7 +18,19 @@ def hello_monkey():
 	"""Respond and greet the caller by name."""
 	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
+	content=content.strip()
+	flag=True
+	for char in content:
+		if char.isdigit() == False:
+			flag=False
+			break
+	if flag==False:
+		content=content
+			
+	elif content.find(" ") == -1:
+		content = "define "+content
 	
+
 	wolfram_content = client.query(content)
 	logging.warning(wolfram_content.results)
 	message = next(wolfram_content.results).text
