@@ -28,17 +28,16 @@ def hello_monkey():
 	resp = urllib2.urlopen(req).read()
 	f = open("temp.xml", "w")
 	f.write(resp)
-	
+	f.close()
 	tree = ET.parse("temp.xml")
 	root = tree.getroot()
 	if root.attrib['success'] == "true":
 		pod = root[1]
 		subpod = pod[0]
 		message = subpod[0].text
-		
 	else:
 		message = "No results found!"
-	
+	logging.warning(message)
 	resp = twilio.twiml.Response()
 	resp.message(message)
 	return str(resp)
