@@ -7,6 +7,9 @@ import sys
 import xml.etree.ElementTree as ET
 import goslate
 
+def is_ascii(s):
+    return all(ord(c) < 128 for c in s)
+
 wolfram_api = 'TRR8TK-VHV99K9UE8'
 
 gs = goslate.Goslate()
@@ -21,7 +24,7 @@ def hello_monkey():
 	message = ""
 	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
 	language = "en"
-	if len(content.split(' ')) > 1:
+	if is_ascii(content) and len(content.split(' ')) > 1:
 		language = gs.detect(content)
 		content = gs.translate(content, 'en')
 		
@@ -44,7 +47,7 @@ def hello_monkey():
 						subpod = pod[0]
 						message += gs.translate(subpod[0].text, language)
 	else:
-		if len(content.split(' ')) == 1:
+		if is_ascii(content) == false and len(content.split(' ')) == 1:
 			logging.warning("entering second if")
 			language = gs.detect(content)
 			content = gs.translate(content, 'en')
@@ -67,7 +70,7 @@ def hello_monkey():
 								message += gs.translate(subpod[0].text, language)
 			
 	if message == "": 
-		message = "Your query turned up no results. Please try something else."
+		message = gs.translate("Your query turned up no results. Please try something else.", language)
 	logging.warning(message)
 	resp = twilio.twiml.Response()
 	resp.message(message)
