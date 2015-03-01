@@ -66,7 +66,7 @@ def hello_monkey():
 			
 	if message == "": 
 		message = "Your query turned up no results. Please try something else."
-
+	logging.warning(message)
 	resp = twilio.twiml.Response()
 	resp.message(message)
 	return str(resp)
