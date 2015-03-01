@@ -34,9 +34,10 @@ def hello_monkey():
 	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
 	if root.attrib['success'] == "true":
 		for pod in root:
-			for pod.attrib['title'] in title_list:
-				subpod = pod[0]
-				message += gs.translate(subpod[0].text, language) + '\n'
+			for title in title_list:
+				if pod.attrib['title'] == title:
+					subpod = pod[0]
+					message += gs.translate(subpod[0].text, language) + '\n'
 	else:
 		message = "No results found!"
 	logging.warning(message)
