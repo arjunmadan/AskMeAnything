@@ -27,9 +27,11 @@ def hello_monkey():
 	title_list = ["Definition", "Definitions", "Exact result", "Pronunciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result", "Basic properties", "Physical characteristics"]
 	language = "en"
 	logging.warning("splitting")
-	if len(content.split(' ')) > 1:
-		language = gs.detect(content)
-		content = gs.translate(content, 'en')
+	for i in content:
+		if i == ' ':
+			language = gs.detect(content)
+			content = gs.translate(content, 'en')
+			break
 		
 	content = urllib.pathname2url(content)
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
