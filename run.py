@@ -40,11 +40,16 @@ def hello_monkey():
 			message = next(wolfram_content.results).text
 		else:
 			message = "No results found!"
-		
+		resp = twilio.twiml.Response()
+		resp.message(message)
+		return str(resp)
 		
 	except:
 		logging.warning("Error:",sys.exe_info()[0])
 		message="Internal Server Error"
+		resp = twilio.twiml.Response()
+		resp.message(message)
+		return str(resp)
 
 #	print(message)
 	
@@ -52,8 +57,6 @@ def hello_monkey():
 	#	message = callers[from_number] + ", thanks for the message!"
 	#else:
 	#	message = "Monkey, thanks for the message!"
-	resp = twilio.twiml.Response()
-	resp.message(message)
-	return str(resp)
+	
 if __name__ == "__main__":
 	app.run(debug=True)
