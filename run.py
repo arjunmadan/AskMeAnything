@@ -26,6 +26,7 @@ def hello_monkey():
 	message = ""
 	title_list = ["Definition", "Definitions", "Exact result", "Pronunciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result", "Basic properties", "Physical characteristics"]
 	language = "en"
+	logging.warning("splitting")
 	if len(content.split(' ')) > 1:
 		language = gs.detect(content)
 		content = gs.translate(content, 'en')
