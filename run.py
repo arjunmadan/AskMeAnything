@@ -2,7 +2,6 @@ from flask import Flask, request, redirect
 import twilio.twiml
 import urllib
 import urllib2
-import requests
 import logging
 import sys
 import xml.etree.ElementTree as ET
