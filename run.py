@@ -1,9 +1,10 @@
 from flask import Flask, request, redirect
 import twilio.twiml
-#import  wolframalpha
+import urllib2
 import requests
 import logging
 import sys
+import xml.etree.ElementTree as ET
 
 wolfram_api = 'TRR8TK-VHV99K9UE8'
 
@@ -18,31 +19,29 @@ callers = {
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 	"""Respond and greet the caller by name."""
-	try:
-		from_number = request.values.get('From', None)
-		content = request.values.get('Body', None)
-		
-		url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
-		r = requests.get(url)
-		
-		logging.warning(r.text)
-		#wolfram_content = client.query(content)
-		
-		#logging.warning(type(wolfram_content))
-		#if wolfram_content.results:
-		#	message = next(wolfram_content.results).text
-		#else:
-		#	message = "No results found!"
-		#resp = twilio.twiml.Response()
-		#resp.message(message)
-		#return str(resp)
-		
-	except:
-		logging.warning("Error")
-		message="No results found. Try an alternate question."
-		#resp = twilio.twiml.Response()
-		#resp.message(message)
-		#return str(resp)
+	from_number = request.values.get('From', None)
+	content = request.values.get('Body', None)
 	
+	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
+		
+	req = urllib2.Request(url)
+	resp = urllib2.urlopen(req).read()
+	f = open("temp.xml", "w")
+	f.write(resp)
+	
+	tree = ET.parse("temp.xml")
+	root = tree.getroot()
+	if root.attrib['success'] == "true":
+		pod = root[1]
+		subpod = pod[0]
+		message = subpod[0].text
+		
+	else:
+		message = "No results found!"
+	
+	resp = twilio.twiml.Response()
+	resp.message(message)
+	return str(resp)
+		
 if __name__ == "__main__":
 	app.run(debug=True)
