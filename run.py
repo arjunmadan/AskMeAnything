@@ -36,7 +36,7 @@ def hello_monkey():
 
 		wolfram_content = client.query(content)
 		logging.warning(wolfram_content.results)
-		if wolfram_content.results:
+		if wolfram_content.results.subpod.plaintext:
 			message = next(wolfram_content.results).text
 		else:
 			message = "No results found!"
@@ -46,7 +46,7 @@ def hello_monkey():
 		
 	except:
 		logging.warning("Error")
-		message="Internal Server Error"
+		message="No results found. Try an alternate question."
 		resp = twilio.twiml.Response()
 		resp.message(message)
 		return str(resp)
