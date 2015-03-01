@@ -17,7 +17,7 @@ callers = {
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 	"""Respond and greet the caller by name."""
-	try
+	try:
 		from_number = request.values.get('From', None)
 		content = request.values.get('Body', None)
 		
