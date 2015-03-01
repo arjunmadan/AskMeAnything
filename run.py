@@ -47,7 +47,7 @@ def hello_monkey():
 				for it in title_list:
 					if pod.attrib['title'] == it:
 						subpod = pod[0]
-						if (RepresentsInt(subpod[0].text):
+						if (RepresentsInt(subpod[0].text)):
 							message += subpod[0].text
 						else:
 							message += gs.translate(subpod[0].text, language)
