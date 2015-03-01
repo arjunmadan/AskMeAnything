@@ -36,6 +36,7 @@ def hello_monkey():
 	tree = ET.parse("temp.xml")
 	root = tree.getroot()
 	if root.attrib['success'] == "true":
+		logging.warning("entering if")
 		for pod in root:
 			if pod.tag == "pod":
 				for it in title_list:
@@ -44,6 +45,7 @@ def hello_monkey():
 						message += gs.translate(subpod[0].text, language)
 	else:
 		if len(content.split(' ')) == 1:
+			logging.warning("entering second if")
 			language = gs.detect(content)
 			content = gs.translate(content, 'en')
 			content = urllib.pathname2url(content)
