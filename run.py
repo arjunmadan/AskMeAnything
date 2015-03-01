@@ -32,6 +32,7 @@ def hello_monkey():
 		if i == ' ':
 			language = gs.detect(content)
 			content = gs.translate(content, 'en')
+			logging.warning(content)
 			content = urllib.pathname2url(content)
 			break
 		
