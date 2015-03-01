@@ -22,7 +22,7 @@ def hello_monkey():
 	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
 	message = ""
-	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result"]
+	title_list = ["Definition", "Exact result", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result"]
 	language = "en"
 	if len(content.split(' ')) > 1:
 		language = gs.detect(content)
