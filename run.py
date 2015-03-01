@@ -18,8 +18,13 @@ def hello_monkey():
 	"""Respond and greet the caller by name."""
 	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
-	language = gs.detect(content)
-	content = gs.translate(content, 'en')
+	message = ""
+	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
+
+	if len(content.split(' ')) > 1:
+		language = gs.detect(content)
+		content = gs.translate(content, 'en')
+		
 	content = urllib.pathname2url(content)
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
 		
@@ -30,21 +35,38 @@ def hello_monkey():
 	f.close()
 	tree = ET.parse("temp.xml")
 	root = tree.getroot()
-	message = ""
-	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
 	if root.attrib['success'] == "true":
 		for pod in root:
-			logging.warning(pod.tag)
 			if pod.tag == "pod":
-				logging.warning(pod.attrib['title'])
 				for it in title_list:
-					logging.warning(it)
 					if pod.attrib['title'] == it:
 						subpod = pod[0]
 						message += gs.translate(subpod[0].text, language)
 	else:
-		message = "No results found!"
-	logging.warning(message)
+		if len(content.split(' ')) == 1:
+			language = gs.detect(content)
+			content = gs.translate(content, 'en')
+			content = urllib.pathname2url(content)
+			url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
+		
+			req = urllib2.Request(url)
+			resp = urllib2.urlopen(req).read()
+			f = open("temp.xml", "w")
+			f.write(resp)
+			f.close()
+			tree = ET.parse("temp.xml")
+			root = tree.getroot()
+			if root.attrib['success'] == "true":
+				for pod in root:
+					if pod.tag == "pod":
+						for it in title_list:
+							if pod.attrib['title'] == it:
+								subpod = pod[0]
+								message += gs.translate(subpod[0].text, language)
+			
+	if message == "": 
+		message = "Your query turned up no results. Please try something else."
+
 	resp = twilio.twiml.Response()
 	resp.message(message)
 	return str(resp)
