@@ -6,7 +6,6 @@ import logging
 import sys
 import xml.etree.ElementTree as ET
 import goslate
-import chardet
 
 wolfram_api = 'TRR8TK-VHV99K9UE8'
 
@@ -33,18 +32,12 @@ def hello_monkey():
 		if i == ' ':
 			language = gs.detect(content)
 			content = gs.translate(content, 'en')
-
+			content = urllib.pathname2url(content)
 			break
-	
-	encoding = chardet.detect(content)
-	if encoding["encoding"] != 'ascii':
-		language = gs.detect(content)
-		content = gs.translate(content, 'en')
-
-	content = urllib.pathname2url(content)		
+		
 	
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
-	
+		
 	req = urllib2.Request(url)
 	resp = urllib2.urlopen(req).read()
 	f = open("temp.xml", "w")
