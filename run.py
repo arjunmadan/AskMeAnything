@@ -37,11 +37,11 @@ def hello_monkey():
 			logging.warning(pod.tag)
 			if pod.tag == "pod":
 				logging.warning(pod.attrib['title'])
-				for title in title_list:
-					logging.warning(title)
-					if pod.attrib['title'] == title:
+				for it in title_list:
+					logging.warning(it)
+					if pod.attrib['title'] == it:
 						subpod = pod[0]
-						message += gs.translate(subpod[0].text, language) + '\n'
+						message += gs.translate(subpod[0].text, language)
 	else:
 		message = "No results found!"
 	logging.warning(message)
