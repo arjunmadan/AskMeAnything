@@ -25,7 +25,7 @@ def hello_monkey():
 	from_number = request.values.get('From', None)
 	content = request.values.get('Body', None)
 	language = gs.detect(content)
-	gs.translate(content, 'en')
+	content = gs.translate(content, 'en')
 	content = urllib.pathname2url(content)
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
 		
