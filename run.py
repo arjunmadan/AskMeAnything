@@ -27,13 +27,15 @@ def hello_monkey():
 	title_list = ["Definition", "Definitions", "Exact result", "Pronunciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name", "Current result", "Basic properties", "Physical characteristics"]
 	language = "en"
 	logging.warning("splitting")
+	count = 0	
 	for i in content:
 		if i == ' ':
 			language = gs.detect(content)
 			content = gs.translate(content, 'en')
+			content = urllib.pathname2url(content)
 			break
 		
-	content = urllib.pathname2url(content)
+	
 	url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
 		
 	req = urllib2.Request(url)
@@ -56,26 +58,29 @@ def hello_monkey():
 							message += gs.translate(pod.attrib['title'], language) + ": " + gs.translate(subpod[0].text, language) + " "
 	else:
 		logging.warning("entering else")			
-		if len(content.split(' ')) == 1:
-			logging.warning("entering second if")
-			language = gs.detect(content)
-			content = gs.translate(content, 'en')
-			content = urllib.pathname2url(content)
-			url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
-			req = urllib2.Request(url)
-			resp = urllib2.urlopen(req).read()
-			f = open("temp.xml", "w")
-			f.write(resp)
-			f.close()
-			tree = ET.parse("temp.xml")
-			root = tree.getroot()
-			if root.attrib['success'] == "true":
-				for pod in root:
-					if pod.tag == "pod":
-						for it in title_list:
-							if pod.attrib['title'] == it:
-								subpod = pod[0]
-								message += gs.translate(pod.attrib['title'], language) + ": " + gs.translate(subpod[0].text, language) + " "
+		for i in content:		
+			if i == ' ':
+				count = 1
+			if count == 0:
+				logging.warning("entering second if")
+				language = gs.detect(content)
+				content = gs.translate(content, 'en')
+				content = urllib.pathname2url(content)
+				url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
+				req = urllib2.Request(url)
+				resp = urllib2.urlopen(req).read()
+				f = open("temp.xml", "w")
+				f.write(resp)
+				f.close()
+				tree = ET.parse("temp.xml")
+				root = tree.getroot()
+				if root.attrib['success'] == "true":
+					for pod in root:
+						if pod.tag == "pod":
+							for it in title_list:
+								if pod.attrib['title'] == it:
+									subpod = pod[0]
+									message += gs.translate(pod.attrib['title'], language) + ": " + gs.translate(subpod[0].text, language) + " "
 			
 	if message == "": 
 		message = gs.translate("Your query turned up no results. Please try something else.", language)
