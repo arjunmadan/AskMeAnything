@@ -13,6 +13,13 @@ gs = goslate.Goslate()
 
 app = Flask(__name__)
 
+def RepresentsInt(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
 	content = request.values.get('Body', None)
@@ -40,7 +47,10 @@ def hello_monkey():
 				for it in title_list:
 					if pod.attrib['title'] == it:
 						subpod = pod[0]
-						message += gs.translate(subpod[0].text, language)
+						if (RepresentsInt(subpod[0].text):
+							message += subpod[0].text
+						else:
+							message += gs.translate(subpod[0].text, language)
 	else:
 		if len(content.split(' ')) == 1:
 			logging.warning("entering second if")
@@ -48,7 +58,6 @@ def hello_monkey():
 			content = gs.translate(content, 'en')
 			content = urllib.pathname2url(content)
 			url = "http://api.wolframalpha.com/v2/query?appid=" + wolfram_api + "&input=" + content + "&format=plaintext"
-		
 			req = urllib2.Request(url)
 			resp = urllib2.urlopen(req).read()
 			f = open("temp.xml", "w")
