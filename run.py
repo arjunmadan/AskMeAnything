@@ -31,9 +31,9 @@ def hello_monkey():
 	tree = ET.parse("temp.xml")
 	root = tree.getroot()
 	message = ""
-	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties"]
+	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
 	if root.attrib['success'] == "true":
-		for pod in root
+		for pod in root:
 			for pod.attrib['title'] in title_list:
 				subpod = pod[0]
 				message += gs.translate(subpod[0].text, language) + '\n'
