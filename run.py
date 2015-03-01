@@ -20,7 +20,7 @@ def hello_monkey():
 	content = request.values.get('Body', None)
 	message = ""
 	title_list = ["Definition", "Pronounciation", "Result", "Basic information", "Leadership position", "Notable facts", "Distance", "Company information", "Properties", "Name"]
-
+	language = "en"
 	if len(content.split(' ')) > 1:
 		language = gs.detect(content)
 		content = gs.translate(content, 'en')
